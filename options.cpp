@@ -26,6 +26,7 @@ struct fuse_opt gridfs_opts[] =
 {
   GRIDFS_OPT_KEY("--host=%s", host, 0),
   GRIDFS_OPT_KEY("--db=%s", db, 0),
+  GRIDFS_OPT_KEY("--fsnode=%s", fsnode, 0),
   FUSE_OPT_KEY("-v", KEY_VERSION),
   FUSE_OPT_KEY("--version", KEY_VERSION),
   FUSE_OPT_KEY("-h", KEY_HELP),
@@ -55,6 +56,7 @@ void print_help()
   cout << endl << "general options:" << endl;
   cout << "\t--db=[dbname]\t\twhich mongo database to use" << endl;
   cout << "\t--host=[hostname]\thostname of your mongodb server" << endl;
+  cout << "\t--fsnode=[fsnode]\tfs node name of your gridfs" << endl;
   cout << "\t-h, --help\t\tprint help" << endl;
   cout << "\t-v, --version\t\tprint version" << endl;
   cout << endl << "FUSE options: " << endl;

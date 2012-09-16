@@ -77,7 +77,7 @@ int gridfs_getattr(const char *path, struct stat *stbuf)
   }
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
   GridFile file = gf.findFile(path);
   sdc.done();
 
@@ -106,7 +106,7 @@ int gridfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   filler(buf, "..", NULL, 0);
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
 
   auto_ptr<DBClientCursor> cursor = gf.list();
   while(cursor->more()) {
@@ -134,7 +134,7 @@ int gridfs_open(const char *path, struct fuse_file_info *fi)
     }
 
     ScopedDbConnection sdc(gridfs_options.host);
-    GridFS gf(sdc.conn(), gridfs_options.db);
+    GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
     GridFile file = gf.findFile(path);
     sdc.done();
 
@@ -180,7 +180,7 @@ int gridfs_unlink(const char* path) {
   path = fuse_to_mongo_path(path);
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
   gf.removeFile(path);
   sdc.done();
 
@@ -201,7 +201,7 @@ int gridfs_read(const char *path, char *buf, size_t size, off_t offset,
   }
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
   GridFile file = gf.findFile(path);
 
   if(!file.exists()) {
@@ -244,7 +244,7 @@ int gridfs_listxattr(const char* path, char* list, size_t size)
   }
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
   GridFile file = gf.findFile(path);
   sdc.done();
 
@@ -292,7 +292,7 @@ int gridfs_getxattr(const char* path, const char* name, char* value, size_t size
   }
 
   ScopedDbConnection sdc(gridfs_options.host);
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
   GridFile file = gf.findFile(path);
   sdc.done();
 
@@ -365,7 +365,7 @@ int gridfs_flush(const char* path, struct fuse_file_info *ffi)
 
   ScopedDbConnection sdc(gridfs_options.host);
   DBClientBase &client = sdc.conn();
-  GridFS gf(sdc.conn(), gridfs_options.db);
+  GridFS gf(sdc.conn(), gridfs_options.db, gridfs_options.fsnode);
 
   if(gf.findFile(path).exists()) {
     gf.removeFile(path);

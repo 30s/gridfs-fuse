@@ -54,6 +54,9 @@ int main(int argc, char *argv[])
   if(!gridfs_options.db) {
     gridfs_options.db = "test";
   }
+  if(!gridfs_options.fsnode) {
+    gridfs_options.fsnode = "fs";
+  }
 
   return fuse_main(args.argc, args.argv, &gridfs_oper, NULL);
 }

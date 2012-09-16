@@ -24,6 +24,7 @@
 struct gridfs_options {
   const char* host;
   const char* db;
+  const char* fsnode;
 };
 
 extern gridfs_options gridfs_options;

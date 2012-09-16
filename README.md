@@ -10,15 +10,27 @@ Requirements
 * FUSE
 * Boost
 
+For ubuntu users, install:
+* mongodb-dev
+* libfuse-dev
+* libboost-dev
+* libboost-system-dev
+* libboost-filesystem-dev
+* libboost-thread-dev
+
 Building
 --------
 
     $ make
 
+For ubuntu users:
+Modify Makefile's -lfuse_ino64 to -lfuse
+
 Usage
 -----
 
-    $ ./mount_gridfs --db=db_name --host=localhost mount_point
+    $ ./mount_gridfs --db=db_name --host=localhost --fsnode=fs mount_point
+    $ ./mount_gridfs --db=db.storage.voice --host=localhost --fsnode=mp3 mount_point
 
 Current Limitations
 -------------------
